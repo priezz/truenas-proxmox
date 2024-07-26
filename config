@@ -1,0 +1,74 @@
+startup=1
+seccomp=0
+gpu_passthrough_intel=1
+gpu_passthrough_nvidia=1
+
+# Only used while creating the jail
+distro=debian
+release=bookworm
+
+# Use bridge networking to provide an isolated network namespace
+# Mount system devices
+systemd_nspawn_user_args=
+    --capability=all
+    --console=pipe
+    --property DeviceAllow='block rwm'
+    --property DeviceAllow='net rwm'
+    --property DeviceAllow='char-drm rwm'
+    --property DeviceAllow='char-usb_device rwm'
+    --property DeviceAllow='/dev/fuse rwm'
+    --property DeviceAllow='/dev/loop-control rwm'
+    --property DeviceAllow='/dev/net/tun rwm'
+    --property DeviceAllow='/dev/null rwm'
+    --property DeviceAllow='/dev/full rwm'
+    --property DeviceAllow='/dev/random rwm'
+    --property DeviceAllow='/dev/shm rwm'
+    --property DeviceAllow='/dev/urandom rwm'
+    --property DeviceAllow='/dev/zero rwm'
+    --bind='/proc/devices'
+    --bind='/sys/block'
+    --bind='/sys/dev'
+    --bind='/sys/devices'
+    --bind='/sys/firmware'
+    --bind='/sys/fs/fuse'
+    --bind='/sys/fs/pstore'
+    --bind='/sys/module'
+    --bind='/dev'
+    --network-bridge=br0
+
+# Script to run on the HOST before starting the jail
+# Load kernel module and config kernel settings required for docker
+pre_start_hook=#!/usr/bin/bash
+    echo 'PRE_START_HOOK'
+    echo 1 > /proc/sys/net/ipv4/ip_forward
+    modprobe br_netfilter
+    echo pre_start > /root/pre_start
+    echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+    echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+    sudo sed -i "s/getNoSubKeyHtml:/_etNoSubKeyHtml:/" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js 2>&1 || true
+    sudo sed -i "s/noSubKeyHtml/_oSubKeyHtml/" /usr/share/pve-manager/touch/pvemanager-mobile.js 2>&1 || true
+    sudo sed -i "s/noSubKeyHtml/_oSubKeyHtml/" /usr/share/pve-manager/js/pvemanagerlib.js 2>&1 || true
+
+# # Specify a command/script to run on the HOST after stopping the jail
+# post_stop_hook=echo 'POST_STOP_HOOK'
+
+# Specify command/script to run IN THE JAIL before starting it for the first time
+# Useful to install packages on top of the base rootfs
+# NOTE: this script will run in the host networking namespace and ignores
+# all systemd_nspawn_user_args such as bind mounts
+
+# You generally will not need to change the options below
+systemd_run_default_args=--property=KillMode=mixed
+    --property=Type=notify
+    --property=RestartForceExitStatus=133
+    --property=SuccessExitStatus=133
+    --property=Delegate=yes
+    --property=TasksMax=infinity
+    --collect
+    --setenv=SYSTEMD_NSPAWN_LOCK=0
+
+systemd_nspawn_default_args=--keep-unit
+    --boot
+    --bind-ro=/sys/module
+    --inaccessible=/sys/module/apparmor
+    --quiet
