@@ -72,14 +72,9 @@ jlmkr restart $HOSTNAME
 cp -r container-setup "$containerRootPath/setup"
 processTemplate "$containerRootPath/setup/setup1.sh"
 processTemplate "$containerRootPath/setup/setup2.sh"
-# echo "Installing packages, it will take a few minutes..."
 
 # Run the setup scripts
 sleep 2
-# echo "\n"
-# echo "**********************************************"
-# echo "* Run ./setup.sh to finish the installation. *"
-# echo "**********************************************"
 echo '/root/setup/setup1.sh' > "$containerRootPath/.bashrc"
 jlmkr shell $HOSTNAME
 sleep 2
