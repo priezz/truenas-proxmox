@@ -35,11 +35,11 @@ bridge working. We assume it is named `br0`, if not update the name in the
 
 ### Example:
 
-![](images/network_1.png)
+![](images/network_1.png | width=600)
 
-![](images/network_2.png)
+![](images/network_2.png | width=600)
 
-![](images/network_3.png)
+![](images/network_3.png | width=600)
 
 ## Step 2. Create Proxmox container
 
