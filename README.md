@@ -35,9 +35,9 @@ bridge working. We assume it is named `br0`, if not update the name in the
 
 ### Example:
 
-<img src="images/network_1.png" width="600"/>
-<img src="images/network_2.png" width="600"/>
-<img src="images/network_3.png" width="600"/>
+<img src="images/network_1.png" width="520"/>
+<img src="images/network_2.png" width="520"/>
+<img src="images/network_3.png" width="520"/>
 
 ## Step 2. Create Proxmox container
 
@@ -62,8 +62,8 @@ sudo ./create.sh -n <hostname> -i <containerip> -j "$(which jlmkr)"
 ```
   -n, --hostname <hostname>       The hostname of the container
   -i, --ip <containerip> The container IP address
-  -j, --jlmkr "$(which jlmkr)"    The 'jlmkr' alias value
   -m, --mtu <mtu>                 The MTU value (1500 or 9000)
+  -j, --jlmkr "$(which jlmkr)"    The 'jlmkr' alias value
 
   -h, --help                      Display this help message
 ```
