@@ -39,14 +39,14 @@ systemd_nspawn_user_args=
 # Script to run on the HOST before starting the jail
 # Load kernel module and config kernel settings required for docker
 pre_start_hook=#!/usr/bin/bash
-    echo 'PRE_START_HOOK'
     echo 1 > /proc/sys/net/ipv4/ip_forward
     modprobe br_netfilter
     echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
     echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
-    sudo sed -i "s/getNoSubKeyHtml:/_etNoSubKeyHtml:/" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js 2>&1 || true
-    sudo sed -i "s/noSubKeyHtml/_oSubKeyHtml/" /usr/share/pve-manager/touch/pvemanager-mobile.js 2>&1 || true
-    sudo sed -i "s/noSubKeyHtml/_oSubKeyHtml/" /usr/share/pve-manager/js/pvemanagerlib.js 2>&1 || true
+    # Suppress the lack of a valid subscription message
+    sed -i "s/getNoSubKeyHtml:/_etNoSubKeyHtml:/" rootfs/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js 2>&1 || true
+    sed -i "s/noSubKeyHtml/_oSubKeyHtml/" rootfs/usr/share/pve-manager/touch/pvemanager-mobile.js 2>&1 || true
+    sed -i "s/noSubKeyHtml/_oSubKeyHtml/" rootfs/usr/share/pve-manager/js/pvemanagerlib.js 2>&1 || true
 
 # # Specify a command/script to run on the HOST after stopping the jail
 # post_stop_hook=echo 'POST_STOP_HOOK'

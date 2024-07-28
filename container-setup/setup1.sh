@@ -43,7 +43,6 @@ ConditionVirtualization=container
 EOF
 
 apt update
-apt full-upgrade -y
 apt install -y bridge-utils ca-certificates chrony cron curl dbus dbus-broker ksmtuned open-iscsi openssh-server openvswitch-switch systemd-container wget whiptail postfix
 install -m 0755 -d /etc/apt/keyrings
 # mkdir -p /dev/pts
@@ -57,7 +56,10 @@ ln -sf /lib/systemd/system/networking.service /etc/systemd/system/network-online
 #ln -sf /usr/lib/systemd/user/dbus-broker.service /etc/systemd/user/dbus.service
 #ln -sf /lib/systemd/system/dbus-broker.service /etc/systemd/system/dbus.service
 /lib/systemd/systemd-sysv-install enable dbus
+
+# Add Proxmox repositories
 echo 'deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm pve-no-subscription' > /etc/apt/sources.list.d/pve-install-repo.list
+echo 'deb http://download.proxmox.com/debian/ceph-reef bookworm no-subscription' > /etc/apt/sources.list.d/ceph.list
 wget https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
 
 # # Install TrueNAS plugin for Proxmox VE
@@ -72,7 +74,9 @@ wget https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/
 # EOF
 
 apt update
+apt full-upgrade -y
 
 # Install ifupdown2, it will fail to configure
 apt install -y ifupdown2
+
 reboot
