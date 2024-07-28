@@ -76,8 +76,7 @@ sudo ./create.sh -n proxmox -i 192.168.1.10 -g 192.168.1.1 -m 1500 -j "$(which j
 
 To ensure that the container is running do `jlmkr list`.
 
-You should see your Proxmox web interface at `https://$CONTAINER_IP:8006` in a
-few minutes (it takes time for all services to start).
+You should see your Proxmox web interface at `https://$CONTAINER_IP:8006` in 2-3 minutes (it takes time for all services to start).
 
 ### Step 3. Attach storage
 

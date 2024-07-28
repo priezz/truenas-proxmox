@@ -44,6 +44,8 @@ pre_start_hook=#!/usr/bin/bash
     echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
     echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
     # Suppress the lack of a valid subscription message
+    sed -i "s/(function\(orig_cmd\) {)/function (origCmd) {\n\torigCmd\(\);\n\treturn;\n/g" rootfs/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+    sed -i "s/(function\(orig_cmd\) {)/function (origCmd) {\n\torigCmd\(\);\n\treturn;\n/g" rootfs/usr/share/pve-manager/touch/pvemanager-mobile.js
     sed -i "s/getNoSubKeyHtml:/_etNoSubKeyHtml:/" rootfs/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js 2>&1 || true
     sed -i "s/noSubKeyHtml/_oSubKeyHtml/" rootfs/usr/share/pve-manager/touch/pvemanager-mobile.js 2>&1 || true
     sed -i "s/noSubKeyHtml/_oSubKeyHtml/" rootfs/usr/share/pve-manager/js/pvemanagerlib.js 2>&1 || true
