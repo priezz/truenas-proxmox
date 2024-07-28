@@ -42,7 +42,6 @@ pre_start_hook=#!/usr/bin/bash
     echo 'PRE_START_HOOK'
     echo 1 > /proc/sys/net/ipv4/ip_forward
     modprobe br_netfilter
-    echo pre_start > /root/pre_start
     echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
     echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
     sudo sed -i "s/getNoSubKeyHtml:/_etNoSubKeyHtml:/" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js 2>&1 || true

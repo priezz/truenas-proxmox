@@ -56,7 +56,7 @@ cd truenas-proxmox
 ### Create a new container
 
 ```
-sudo ./create.sh -n <hostname> -i <containerip> -g <gateway> -j "$(which jlmkr)"
+sudo ./create.sh -n <hostname> -i <containerip> -j "$(which jlmkr)"
 ```
 
 #### Options:
@@ -64,8 +64,8 @@ sudo ./create.sh -n <hostname> -i <containerip> -g <gateway> -j "$(which jlmkr)"
 ```
   -n, --hostname <hostname>       The hostname of the container
   -i, --ip <containerip> The container IP address
-  -g, --gateway <gateway>         The gateway IP address
   -j, --jlmkr "$(which jlmkr)"    The 'jlmkr' alias value
+  -m, --mtu <mtu>                 The MTU value (1500 or 9000)
 
   -h, --help                      Display this help message
 ```
@@ -73,7 +73,7 @@ sudo ./create.sh -n <hostname> -i <containerip> -g <gateway> -j "$(which jlmkr)"
 ### Example:
 
 ```
-sudo ./create.sh -n proxmox -i 192.168.1.10 -g 192.168.1.1 -j "$(which jlmkr)"
+sudo ./create.sh -n proxmox -i 192.168.1.10 -g 192.168.1.1 -m 1500 -j "$(which jlmkr)"
 ```
 
 To ensure that the container is running do `jlmkr list`.

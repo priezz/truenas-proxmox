@@ -11,13 +11,15 @@ showHelp() {
     echo "Options:"
     echo "  -n, --hostname <hostname>       The hostname of the container"
     echo "  -i, --ip <containerip> The container IP address"
-    echo "  -g, --gateway <gateway>         The gateway IP address"
+    echo "  -m, --mtu <mtu>                 The MTU value (1500 or 9000)"
     echo "  -j, --jlmkr "$(which jlmkr)"    The 'jlmkr' alias value"
     echo
     echo "  -h, --help                      Display this help message"
 }
 
 
+export MTU=9000
+export GATEWAY_IP="${ip route | grep default | awk '{print $3}'}"
 # Process named arguments
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -27,13 +29,13 @@ while [[ $# -gt 0 ]]; do
     -i|--ip)
       export CONTAINER_IP="$2"
       ;;
-    -g|--gateway)
-      export GATEWAY_IP="$2"
-      ;;
     -j|--jlmkr)
       jlmkr="$(echo $2 | sed 's/jlmkr: aliased to //')"
       jlmkrPath="$(echo "$jlmkr" | sed -E "s|sudo -E '(.*)/jlmkr\.py'|\1|")"
       alias jlmkr="$jlmkr"
+      ;;
+    -m|--mtu)
+      export MTU="$2"
       ;;
     -h|--help|*)
       showHelp
@@ -50,7 +52,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check if the required arguments are set
-if [[ -z $HOSTNAME || -z $CONTAINER_IP || -z $GATEWAY_IP || -z $jlmkr ]]; then
+if [[ -z $HOSTNAME || -z $CONTAINER_IP || -z $MTU || -z $jlmkr ]]; then
   echo "\nERROR: Missing required arguments\n"
   showHelp
   exit 1

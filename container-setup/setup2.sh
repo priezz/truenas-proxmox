@@ -12,4 +12,4 @@ pveum acl modify / --roles Administrator --users admin@pam
 apt autoremove -y
 echo > /root/.bashrc
 rm -rf /root/setup
-systemctl reboot
+reboot

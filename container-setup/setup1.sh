@@ -18,18 +18,18 @@ cat > /etc/network/interfaces <<EOF
 auto lo
 iface lo inet loopback
 
+# Host network
 auto host0
 iface host0 inet manual
-# Host network
-    mtu 9000
+    mtu {{MTU}}
 
+# Bridge for Virtual Machines
 auto vmbr0
 iface vmbr0 inet static
-# Bridge for Virtual Machines
     metric 50
     address {{CONTAINER_IP}}/24
     gateway {{GATEWAY_IP}}
-    mtu 9000
+    mtu {{MTU}}
     bridge-ports host0
     bridge-stp off
     bridge-fd 0
